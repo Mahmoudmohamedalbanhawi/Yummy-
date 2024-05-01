@@ -159,6 +159,9 @@ function displayCategory(arrMeals){
 }
 
 $(".category").click(()=>{
+    document.querySelector(".contact").classList.replace("d-flex","d-none")
+    document.querySelector(".row-Data").classList.replace("d-none","d-flex")
+    document.querySelector(".search-filter").classList.replace("d-block","d-none")
    getCategories()
 })
 
@@ -230,6 +233,9 @@ function displayArea(arrMeals){
 }
 
 $(".area").click(()=>{
+    document.querySelector(".contact").classList.replace("d-flex","d-none")
+    document.querySelector(".row-Data").classList.replace("d-none","d-flex")
+    document.querySelector(".search-filter").classList.replace("d-block","d-none")
     getArea()
 })
 
@@ -270,6 +276,9 @@ function displayIngredients(arrMeals){
 
 
 $(".ingredients").click(()=>{
+    document.querySelector(".contact").classList.replace("d-flex","d-none")
+    document.querySelector(".row-Data").classList.replace("d-none","d-flex")
+    document.querySelector(".search-filter").classList.replace("d-block","d-none")
     getIngredients()
 })
 
@@ -281,6 +290,7 @@ async function getallMealIngredient(index){
 }
 
 $(".search").click(()=>{
+    document.querySelector(".contact").classList.replace("d-flex","d-none")
     $(".loading-screen").fadeIn(300);
     $("body").css("overflow","hidden");
     document.querySelector(".search-filter").classList.replace("d-none","d-block")
@@ -322,6 +332,7 @@ async function getMealbyLetter(index){
 
 
 $('.contact-us').click(()=>{
+    document.querySelector(".search-filter").classList.replace("d-block","d-none")
     document.querySelector(".row-Data").innerHTML = `
     
     `
@@ -352,21 +363,25 @@ function validateName(name){
 document.querySelector(".valid-name").addEventListener("keyup",function(e){
     console.log(e.target.value)
     validateName(e.target.value)
+    validateForm();
 })
 
 document.querySelector(".valid-email").addEventListener("keyup",function(e){
     console.log(e.target.value)
     validEmail(e.target.value)
+    validateForm();
 })
 document.querySelector(".valid-pass").addEventListener("keyup",function(e){
     console.log(e.target.value)
     validPassword(e.target.value)
+    validateForm();
 })
 
 
 function validEmail(email){
     var test = /^[A-Z]{1}[A-Za-z0-9_]{3,30}@gmail.com$/
     if(test.test(email)){
+        globalemail = email
         document.querySelector(".alert-email").classList.replace("d-block","d-none")
         return true
     }
@@ -389,13 +404,29 @@ function validPassword(pass){
     }
 }
 
-validPassword("Ahmed123")
-
 document.querySelector(".re-pass").addEventListener("keyup",function(e){
-    if(validPassword(gloabalpass)!== e.target.value){
-        console.log("hi")
+    let pass = document.querySelector(".valid-pass")
+    if(e.target.value == pass.value ){
+        document.querySelector(".alert-repass").classList.replace("d-block","d-none")
+        return true;
     }
     else {
-        alert("everythig is good")
+       document.querySelector(".alert-repass").classList.replace("d-none","d-block")
+       return false;
     }
 })
+
+
+function validateForm() {
+    var name = document.querySelector(".valid-name").value;
+    var email = document.querySelector(".valid-email").value;
+    var password = document.querySelector(".valid-pass").value;
+    var rePassword = document.querySelector(".re-pass").value;
+  
+    var isNameValid = validateName(name);
+    var isEmailValid = validEmail(email);
+    var isPasswordValid = validPassword(password);
+    var isRePasswordValid = (password === rePassword);
+    console.log('hi')
+    return isNameValid && isEmailValid && isPasswordValid && isRePasswordValid;
+  }

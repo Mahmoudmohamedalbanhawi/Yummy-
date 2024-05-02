@@ -331,102 +331,177 @@ async function getMealbyLetter(index){
 
 
 
-$('.contact-us').click(()=>{
-    document.querySelector(".search-filter").classList.replace("d-block","d-none")
-    document.querySelector(".row-Data").innerHTML = `
-    
-    `
-    document.querySelector(".contact").classList.replace("d-none","d-flex")
-    
-    ;
-   
 
+function showContacts() {
+    document.querySelector(".row-Data").innerHTML  = `<div class="contact min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="container w-75 text-center">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <input id="nameInput" onkeyup="inputsValidation()" type="text" class="form-control" placeholder="Enter Your Name">
+                <div id="nameAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Special characters and numbers not allowed
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input id="emailInput" onkeyup="inputsValidation()" type="email" class="form-control " placeholder="Enter Your Email">
+                <div id="emailAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Email not valid *exemple@yyy.zzz
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input id="phoneInput" onkeyup="inputsValidation()" type="text" class="form-control " placeholder="Enter Your Phone">
+                <div id="phoneAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Enter valid Phone Number
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input id="ageInput" onkeyup="inputsValidation()" type="number" class="form-control " placeholder="Enter Your Age">
+                <div id="ageAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Enter valid age
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input  id="passwordInput" onkeyup="inputsValidation()" type="password" class="form-control " placeholder="Enter Your Password">
+                <div id="passwordAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Enter valid password *Minimum eight characters, at least one letter and one number:*
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input  id="repasswordInput" onkeyup="inputsValidation()" type="password" class="form-control " placeholder="Repassword">
+                <div id="repasswordAlert" class="alert alert-danger w-100 mt-2 d-none">
+                    Enter valid repassword 
+                </div>
+            </div>
+        </div>
+        <button id="submitBtn" disabled class="btn btn-outline-danger px-2 mt-3">Submit</button>
+    </div>
+</div> `
+    submitBtn = document.getElementById("submitBtn")
+
+
+    document.getElementById("nameInput").addEventListener("focus", () => {
+        nameInputTouched = true
+    })
+
+    document.getElementById("emailInput").addEventListener("focus", () => {
+        emailInputTouched = true
+    })
+
+    document.getElementById("phoneInput").addEventListener("focus", () => {
+        phoneInputTouched = true
+    })
+
+    document.getElementById("ageInput").addEventListener("focus", () => {
+        ageInputTouched = true
+    })
+
+    document.getElementById("passwordInput").addEventListener("focus", () => {
+        passwordInputTouched = true
+    })
+
+    document.getElementById("repasswordInput").addEventListener("focus", () => {
+        repasswordInputTouched = true
+    })
 }
 
+let nameInputTouched = false;
+let emailInputTouched = false;
+let phoneInputTouched = false;
+let ageInputTouched = false;
+let passwordInputTouched = false;
+let repasswordInputTouched = false;
 
-)
 
 
-function validateName(name){
-    var test = /^[A-Z]{1}[A-Z-a-z0-9]{3,30}$/
-    if(test.test(name)){
-        document.querySelector(".alert-name").classList.replace("d-block","d-none")
-        return true
+
+function inputsValidation() {
+    if (nameInputTouched) {
+        if (nameValidation()) {
+            document.getElementById("nameAlert").classList.replace("d-block", "d-none")
+
+        } else {
+            document.getElementById("nameAlert").classList.replace("d-none", "d-block")
+
+        }
     }
-    else {
-       document.querySelector(".alert-name").classList.replace("d-none","d-block")
-       return false;
+    if (emailInputTouched) {
+
+        if (emailValidation()) {
+            document.getElementById("emailAlert").classList.replace("d-block", "d-none")
+        } else {
+            document.getElementById("emailAlert").classList.replace("d-none", "d-block")
+
+        }
+    }
+
+    if (phoneInputTouched) {
+        if (phoneValidation()) {
+            document.getElementById("phoneAlert").classList.replace("d-block", "d-none")
+        } else {
+            document.getElementById("phoneAlert").classList.replace("d-none", "d-block")
+
+        }
+    }
+
+    if (ageInputTouched) {
+        if (ageValidation()) {
+            document.getElementById("ageAlert").classList.replace("d-block", "d-none")
+        } else {
+            document.getElementById("ageAlert").classList.replace("d-none", "d-block")
+
+        }
+    }
+
+    if (passwordInputTouched) {
+        if (passwordValidation()) {
+            document.getElementById("passwordAlert").classList.replace("d-block", "d-none")
+        } else {
+            document.getElementById("passwordAlert").classList.replace("d-none", "d-block")
+
+        }
+    }
+    if (repasswordInputTouched) {
+        if (repasswordValidation()) {
+            document.getElementById("repasswordAlert").classList.replace("d-block", "d-none")
+        } else {
+            document.getElementById("repasswordAlert").classList.replace("d-none", "d-block")
+
+        }
+    }
+
+
+    if (nameValidation() &&
+        emailValidation() &&
+        phoneValidation() &&
+        ageValidation() &&
+        passwordValidation() &&
+        repasswordValidation()) {
+        submitBtn.removeAttribute("disabled")
+    } else {
+        submitBtn.setAttribute("disabled", true)
     }
 }
 
-
-document.querySelector(".valid-name").addEventListener("keyup",function(e){
-    console.log(e.target.value)
-    validateName(e.target.value)
-    validateForm();
-})
-
-document.querySelector(".valid-email").addEventListener("keyup",function(e){
-    console.log(e.target.value)
-    validEmail(e.target.value)
-    validateForm();
-})
-document.querySelector(".valid-pass").addEventListener("keyup",function(e){
-    console.log(e.target.value)
-    validPassword(e.target.value)
-    validateForm();
-})
-
-
-function validEmail(email){
-    var test = /^[A-Z]{1}[A-Za-z0-9_]{3,30}@gmail.com$/
-    if(test.test(email)){
-        globalemail = email
-        document.querySelector(".alert-email").classList.replace("d-block","d-none")
-        return true
-    }
-    else {
-        document.querySelector(".alert-email").classList.replace("d-none","d-block")
-        return false;
-    }
+function nameValidation() {
+    return (/^[a-zA-Z ]+$/.test(document.getElementById("nameInput").value))
 }
 
-function validPassword(pass){
-    var test = /^[A-Z]{1}[A-Za-z0-9]{3,30}$/
-    if(test.test(pass)){
-       
-        document.querySelector(".alert-pass").classList.replace("d-block","d-none")
-        return true
-    }
-    else {
-        document.querySelector(".alert-pass").classList.replace("d-none","d-block")
-        return false;
-    }
+function emailValidation() {
+    return (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(document.getElementById("emailInput").value))
 }
 
-document.querySelector(".re-pass").addEventListener("keyup",function(e){
-    let pass = document.querySelector(".valid-pass")
-    if(e.target.value == pass.value ){
-        document.querySelector(".alert-repass").classList.replace("d-block","d-none")
-        return true;
-    }
-    else {
-       document.querySelector(".alert-repass").classList.replace("d-none","d-block")
-       return false;
-    }
-})
+function phoneValidation() {
+    return (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(document.getElementById("phoneInput").value))
+}
 
+function ageValidation() {
+    return (/^(0?[1-9]|[1-9][0-9]|[1][1-9][1-9]|200)$/.test(document.getElementById("ageInput").value))
+}
 
-function validateForm() {
-    var name = document.querySelector(".valid-name").value;
-    var email = document.querySelector(".valid-email").value;
-    var password = document.querySelector(".valid-pass").value;
-    var rePassword = document.querySelector(".re-pass").value;
-  
-    var isNameValid = validateName(name);
-    var isEmailValid = validEmail(email);
-    var isPasswordValid = validPassword(password);
-    var isRePasswordValid = (password === rePassword);
-    console.log('hi')
-    return isNameValid && isEmailValid && isPasswordValid && isRePasswordValid;
-  }
+function passwordValidation() {
+    return (/^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/.test(document.getElementById("passwordInput").value))
+}
+
+function repasswordValidation() {
+    return document.getElementById("repasswordInput").value == document.getElementById("passwordInput").value
+}
